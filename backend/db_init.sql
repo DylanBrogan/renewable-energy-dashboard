@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS historic_solar_data (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     avg_surface_temperature REAL,
     avg_watts REAL,
-    create_date DATETIME DEFAULT CURRENT_TIMESTAMP
+    create_date
 );
 
 -- Create the user_settings table
