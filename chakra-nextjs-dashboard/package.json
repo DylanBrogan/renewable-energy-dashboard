@@ -1,0 +1,24 @@
+{
+  "name": "nextjs-chakra-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "^1.6.2",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "apexcharts": "^3.53.0",
+    "chart.js": "^3.3.0",
+    "framer-motion": "^4",
+    "next": "^14.2.7",
+    "react": "^18.2.0",
+    "react-apexcharts": "^1.4.1",
+    "react-chartjs-2": "^3.0.3",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.2.0"
+  }
+}
