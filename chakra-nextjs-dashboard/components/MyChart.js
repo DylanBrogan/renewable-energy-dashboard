@@ -63,10 +63,17 @@ const RealTimeLineChart = () => {
   });
 
   useEffect(() => {
+    const formatTime = (date) => {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      const seconds = String(date.getSeconds()).padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
+    };
+
     const interval = setInterval(() => {
       const now = new Date();
       const newDataPoint = {
-        x: now.getTime(), // Timestamp as x-value
+        x: formatTime(now), // Timestamp as x-value
         y: Math.random() * 100 // Random y-value
       };
 
@@ -101,7 +108,7 @@ const RealTimeLineChart = () => {
   const options = {
     scales: {
       x: {
-        type: 'linear',
+        type: 'category',
         position: 'bottom',
       },
       y: {
