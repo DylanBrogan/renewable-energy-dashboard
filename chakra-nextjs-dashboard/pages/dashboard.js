@@ -88,7 +88,7 @@ export default function Dashboard() {
                             alignSelf="center"
                             letterSpacing="tight"
                         >
-                            Rise.
+                            RED
                         </Heading>
                         <Flex
                             flexDir={["row", "row", "column", "column", "column"]}
@@ -101,37 +101,10 @@ export default function Dashboard() {
                                     <Icon as={FiHome} fontSize="2xl" className="active-icon" />
                                 </Link>
                                 <Link _hover={{ textDecor: 'none' }} display={["flex", "flex", "none", "flex", "flex"]}>
-                                    <Text className="active">Home</Text>
-                                </Link>
-                            </Flex>
-                            <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
-                                <Link display={["none", "none", "flex", "flex", "flex"]}>
-                                    <Icon as={FiPieChart} fontSize="2xl" />
-                                </Link>
-                                <Link _hover={{ textDecor: 'none' }} display={["flex", "flex", "none", "flex", "flex"]}>
-                                    <Text>Credit</Text>
-                                </Link>
-                            </Flex>
-                            <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
-                                <Link display={["none", "none", "flex", "flex", "flex"]}>
-                                    <Icon as={FiDollarSign} fontSize="2xl" />
-                                </Link>
-                                <Link _hover={{ textDecor: 'none' }} display={["flex", "flex", "none", "flex", "flex"]}>
-                                    <Text>Wallet</Text>
-                                </Link>
-                            </Flex>
-                            <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
-                                <Link display={["none", "none", "flex", "flex", "flex"]}>
-                                    <Icon as={FiBox} fontSize="2xl" /></Link>
-                                <Link _hover={{ textDecor: 'none' }} display={["flex", "flex", "none", "flex", "flex"]}>
-                                    <Text>Services</Text>
+                                    <Text className="active">Live Data</Text>
                                 </Link>
                             </Flex>
                         </Flex>
-                    </Flex>
-                    <Flex flexDir="column" alignItems="center" mb={10} mt={5}>
-                        <Avatar my={2} src="avatar-1.jpg" />
-                        <Text textAlign="center">Calvin West</Text>
                     </Flex>
                 </Flex>
             </Flex>
