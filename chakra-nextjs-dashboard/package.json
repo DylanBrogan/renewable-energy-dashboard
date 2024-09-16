@@ -19,6 +19,8 @@
     "react-apexcharts": "^1.4.1",
     "react-chartjs-2": "^3.0.3",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.2.0"
+    "react-icons": "^4.2.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import {
     Flex,
     Heading,
@@ -37,8 +37,26 @@ import {
 import MyChart from '../components/MyChart'
 
 export default function Dashboard() {
+    //Use States
     const [display, changeDisplay] = useState('hide')
     const [value, changeValue] = useState(1)
+
+    //Use Effects
+    useEffect(() => {
+        async function fetchUsers() {
+          try {
+            const response = await fetch('/api/hello');
+            const data = await response.json();
+            console.log(data)
+          } catch (error) {
+            console.error('Failed to fetch users:', error);
+          }
+        }
+        
+        fetchUsers();
+      }, []);
+
+
     return (
         <Flex
             h={[null, null, "100vh"]}
