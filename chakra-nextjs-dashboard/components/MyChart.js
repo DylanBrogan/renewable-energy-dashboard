@@ -1,54 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Box, Text } from "@chakra-ui/react";
 import { Line } from 'react-chartjs-2'
-
-const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [
-        {
-            label: 'My Balance',
-            fill: false,
-            lineTension: 0.5,
-            backgroundColor: '#db86b2',
-            borderColor: '#B57295',
-            borderCapStyle: 'butt',
-            borderDashOffset: 0.0,
-            borderJoinStyle: '#B57295',
-            pointBorderColor: '#B57295',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: '#B57295',
-            pointHoverBorderColor: '#B57295',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [500, 300, 400, 500, 800, 650, 700, 690, 1000, 1200, 1050, 1300],
-        },
-    ],
-}
-
-const options = {
-    maintainAspectRatio: true,
-    scales: {
-        x: {
-            grid: {
-                display: false,
-            },
-        },
-        y: {
-            grid: {
-                borderDash: [3, 3],
-            },
-            // beginAtZero: true, // this works
-        },
-    },
-    plugins: {
-        legend: {
-            display: false
-        }
-    }
-}
-
 
 const RealTimeLineChart = () => {
   const [data, setData] = useState({
@@ -82,7 +34,7 @@ const RealTimeLineChart = () => {
         const updatedData = [...prevData.datasets[0].data, newDataPoint];
 
         // Keep the chart from becoming too cluttered
-        if (updatedLabels.length > 10) {
+        if (updatedLabels.length > 100) {
           updatedLabels.shift();
           updatedData.shift();
         }
@@ -100,19 +52,21 @@ const RealTimeLineChart = () => {
     return () => clearInterval(interval); // Clean up interval on component unmount
   }, []);
 
-  const chartData = {
-    labels: data.labels,
-    datasets: data.datasets
-  };
+  // const chartData = {
+    // labels: data.labels,
+    // datasets: data.datasets
+  // };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         type: 'category',
         position: 'bottom',
       },
       y: {
-        beginAtZero: true
+        beginAtZero: false
       }
     },
     animation: {
@@ -120,12 +74,25 @@ const RealTimeLineChart = () => {
     }
   };
 
-  return <Line data={chartData} options={options} />;
+  return <Line data={data} options={options} />;
 };
 
 
-const MyChart = () => (
+const MyChart = (props) => (
+  <Box
+    borderWidth="1px" 
+    borderRadius="lg" 
+    boxShadow="lg" 
+    bg="gray.50"
+    w={props.w}
+    flex = {props.flex}
+    p="2.5%"
+    h={props.h}
+    m={props.m}
+  >
+    <Text color="gray" fontSize="lg">{props.title}</Text>
     <RealTimeLineChart></RealTimeLineChart>
+  </Box>
 )
 
 export default MyChart;

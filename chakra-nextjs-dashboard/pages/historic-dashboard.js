@@ -35,11 +35,14 @@ import {
     FiBell
 } from "react-icons/fi"
 import MyChart from '../components/MyChart'
+import StaticGraph from '../components/StaticGraph'
 
-export default function Dashboard() {
+
+export default function HistoricDashboard() {
     //Use States
     const [display, changeDisplay] = useState('hide')
     const [value, changeValue] = useState(1)
+    const [graphData, setGraphData] = useState([])
 
     //Use Effects
     useEffect(() => {
@@ -47,7 +50,7 @@ export default function Dashboard() {
           try {
             const response = await fetch('/api/hello');
             const data = await response.json();
-            console.log(data)
+            setGraphData(data)
           } catch (error) {
             console.error('Failed to fetch users:', error);
           }
@@ -55,6 +58,13 @@ export default function Dashboard() {
         
         fetchUsers();
       }, []);
+
+      // Data
+      const times = graphData.map(item => item.create_date);
+      const surfaceTemperature = graphData.map(item => item.surface_temperature);
+      const watts = graphData.map(item => item.watts);
+
+      console.log(graphData); 
 
 
     return (
@@ -88,7 +98,7 @@ export default function Dashboard() {
                             alignSelf="center"
                             letterSpacing="tight"
                         >
-                            Live Graphs
+                            Historic Graphs
                         </Heading>
                         <Flex
                             flexDir={["row", "row", "column", "column", "column"]}
@@ -136,17 +146,16 @@ export default function Dashboard() {
                     flexDir="row"       
                     align="center"      
                     gap={4} 
-                >     
-                    <MyChart w="50%" h="40vh" m="3" title="Temperature of Solar Panel"/>
-                    <MyChart w="50%" h="40vh" m="3" title="Temperature of Solar Panel"/>
+                >    
+                    <StaticGraph title="Power Produced" label="Current Power" labels={times} data={watts} w="50%" h="40vh" m="3"/>
+                    <StaticGraph title="Power Produced" label="Current Power" labels={times} data={watts} w="50%" h="40vh" m="3"/>
                 </Flex>
                 <Flex
                     flexDir="row"       
                     align="center"      
                     gap={4} 
                 >     
-                    <MyChart w="100%" h="35vh" m="3" title="Temperature of Solar Panel"/>
-
+                    <StaticGraph title="Surface Temperature" label="Current Temperature" labels={times} data={surfaceTemperature} w="100%" h="35vh" m="3"/>
                 </Flex>
             </Flex>
 
