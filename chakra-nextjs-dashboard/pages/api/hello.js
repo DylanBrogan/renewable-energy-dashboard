@@ -7,7 +7,7 @@ import { open } from 'sqlite';
 // Open a database connection
 async function openDB() {
   return open({
-    filename: '/Users/cobeykromer/Desktop/renewable-energy-dashboard/backend/data/dummy_data.db', // path to your SQLite file
+    filename: '../backend/data/dummy_data.db', // path to your SQLite file
     driver: sqlite3.Database,
   });
 }
