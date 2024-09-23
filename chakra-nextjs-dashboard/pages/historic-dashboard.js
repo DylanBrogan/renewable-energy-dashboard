@@ -1,4 +1,6 @@
 import React, { useState, useEffect} from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import {
     Flex,
     Heading,
@@ -21,28 +23,20 @@ import {
     InputGroup,
     InputLeftElement
 } from '@chakra-ui/react'
-import {
-    FiHome,
-    FiPieChart,
-    FiDollarSign,
-    FiBox,
-    FiCalendar,
-    FiChevronDown,
-    FiChevronUp,
-    FiPlus,
-    FiCreditCard,
-    FiSearch,
-    FiBell
-} from "react-icons/fi"
-import MyChart from '../components/MyChart'
 import StaticGraph from '../components/StaticGraph'
+import * as tf from '@tensorflow/tfjs';
 
 
 export default function HistoricDashboard() {
     //Use States
-    const [display, changeDisplay] = useState('hide')
-    const [value, changeValue] = useState(1)
     const [graphData, setGraphData] = useState([])
+    //const [dataLoaded, setDataLoaded] = useState(false);
+
+    // Data
+    const times = graphData.map(item => item.create_date);
+    const surfaceTemperature = graphData.map(item => item.surface_temperature);
+    const watts = graphData.map(item => item.watts);
+    console.log(graphData); 
 
     //Use Effects
     useEffect(() => {
@@ -51,20 +45,70 @@ export default function HistoricDashboard() {
             const response = await fetch('/api/hello');
             const data = await response.json();
             setGraphData(data)
+            setDataLoaded(true)
           } catch (error) {
             console.error('Failed to fetch users:', error);
           }
         }
         
         fetchUsers();
+
       }, []);
 
-      // Data
-      const times = graphData.map(item => item.create_date);
-      const surfaceTemperature = graphData.map(item => item.surface_temperature);
-      const watts = graphData.map(item => item.watts);
-
-      console.log(graphData); 
+    // Machine Learning (depracated)
+    //useEffect(() => {
+    //    if (dataLoaded && surfaceTemperature.length > 0 && watts.length > 0) {
+    //        // Training data (single input feature, continuous output)
+    //        const trainingData = tf.tensor2d(surfaceTemperature, [surfaceTemperature.length,1]);
+    //        const outputData = tf.tensor2d(watts, [watts.length,1]);
+    //        
+    //        // Define the model
+    //        const model = tf.sequential();
+    //        
+    //        model.add(tf.layers.dense({
+    //          units: 4,      // Hidden layer neurons
+    //          inputShape: [1],  // One input feature
+    //          activation: 'relu'
+    //        }));
+//
+    //        model.add(tf.layers.dense({
+    //          units: 1,     // Output is a single continuous value
+    //          activation: 'linear'  // Linear activation for regression
+    //        }));
+//
+    //        // Compile the model for regression
+    //        model.compile({
+    //          optimizer: 'adam',
+    //          loss: 'meanSquaredError',  // Use MSE for regression
+    //          metrics: ['mae']  // Mean Absolute Error (optional)
+    //        });
+//
+    //        // Train the model
+    //        const trainModel = async () => {
+    //          await model.fit(trainingData, outputData, {
+    //            epochs: 100,  // Number of training iterations
+    //            //callbacks: {
+    //            //  onEpochEnd: (epoch, logs) => {
+    //            //    console.log(`Epoch ${epoch}: loss = ${logs.loss}, MAE = ${logs.mae}`);
+    //            //  }
+    //            //}
+    //          });
+    //        };
+//
+    //        // Predict with new input data
+    //        const predict = async () => {
+    //          const testData = tf.tensor2d([[33], [30]]);  // Test data 
+    //          const predictions = model.predict(testData);
+    //          predictions.print();  // Output the predictions
+    //        };
+//
+    //        // Run the training and prediction
+    //        (async () => {
+    //          await trainModel();
+    //          await predict();
+    //        })();
+    //    }
+    //}, [dataLoaded, graphData])
 
 
     return (
@@ -90,6 +134,7 @@ export default function HistoricDashboard() {
                     <Flex
                         flexDir="column"
                         as="nav"
+                        alignItems="center"
                     >
                         <Heading
                             mt={50}
@@ -98,7 +143,7 @@ export default function HistoricDashboard() {
                             alignSelf="center"
                             letterSpacing="tight"
                         >
-                            Historic Graphs
+                            R.E.D.
                         </Heading>
                         <Flex
                             flexDir={["row", "row", "column", "column", "column"]}
@@ -108,7 +153,7 @@ export default function HistoricDashboard() {
                         >
                             <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                                 <Link href="/" display={["none", "none", "flex", "flex", "flex"]}>
-                                    <Icon as={FiHome} fontSize="2xl" className="active-icon" />
+                                    <FontAwesomeIcon size="lg" icon={faChartLine} className="active-icon"/>
                                 </Link>
                                 <Link href="/" _hover={{ textDecor: 'none' }} display={["flex", "flex", "none", "flex", "flex"]}>
                                     <Text className="active">Live Data</Text>
@@ -116,7 +161,7 @@ export default function HistoricDashboard() {
                             </Flex>
                             <Flex className="sidebar-items" mr={[2, 6, 0, 0, 0]}>
                                 <Link href="/historic-graphs" display={["none", "none", "flex", "flex", "flex"]}>
-                                    <Icon as={FiHome} fontSize="2xl" className="active-icon" />
+                                    <FontAwesomeIcon size="lg" icon={faChartLine} className="active-icon"/>
                                 </Link>
                                 <Link href="/historic-graphs" _hover={{ textDecor: 'none' }} display={["flex", "flex", "none", "flex", "flex"]}>
                                     <Text className="active">Historic Data</Text>
@@ -135,13 +180,15 @@ export default function HistoricDashboard() {
                 overflow="hidden"
                 h="100vh"
             >
-                <Heading
+                <Text
                     fontWeight="bold"
                     mb={4}
                     letterSpacing="tight"
+                    className="text1"
+                    fontSize="3xl"
                 >
-                    Renewable Energy Dashboard
-                </Heading>
+                    Historic Graphs
+                </Text>
                 <Flex
                     flexDir="row"       
                     align="center"      
@@ -158,7 +205,6 @@ export default function HistoricDashboard() {
                     <StaticGraph title="Surface Temperature" label="Current Temperature" labels={times} data={surfaceTemperature} w="100%" h="35vh" m="3"/>
                 </Flex>
             </Flex>
-
         </Flex>
     )
 }

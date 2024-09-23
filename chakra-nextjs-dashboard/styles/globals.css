@@ -47,3 +47,20 @@ a {
 .active-icon {
   color: #B57295 !important;
 }
+
+@keyframes textBounceStretch {
+  0% {
+    color: white;
+  }
+  30% {
+    letter-spacing: 25px;
+  }
+  85% {
+    letter-spacing: -0.025em;
+  }
+}
+
+.text1 {
+  animation: textBounceStretch 3s 1;
+}
+
