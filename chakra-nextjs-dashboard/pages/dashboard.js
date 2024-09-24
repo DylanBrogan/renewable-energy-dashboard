@@ -80,6 +80,7 @@ export default function Dashboard() {
                     <Flex
                         flexDir="column"
                         as="nav"
+                        alignItems="center"
                     >
                         <Heading
                             mt={50}
@@ -88,7 +89,7 @@ export default function Dashboard() {
                             alignSelf="center"
                             letterSpacing="tight"
                         >
-                            Live Graphs
+                            R.E.D.
                         </Heading>
                         <Flex
                             flexDir={["row", "row", "column", "column", "column"]}
@@ -125,13 +126,15 @@ export default function Dashboard() {
                 overflow="hidden"
                 h="100vh"
             >
-                <Heading
+                <Text
                     fontWeight="bold"
                     mb={4}
                     letterSpacing="tight"
+                    className="text1"
+                    fontSize="3xl"
                 >
-                    Renewable Energy Dashboard
-                </Heading>
+                    Live Graphs
+                </Text>
                 <Flex
                     flexDir="row"       
                     align="center"      

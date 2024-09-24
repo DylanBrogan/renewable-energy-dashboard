@@ -90,6 +90,7 @@ export default function HistoricDashboard() {
                     <Flex
                         flexDir="column"
                         as="nav"
+                        alignItems="center"
                     >
                         <Heading
                             mt={50}
@@ -98,7 +99,7 @@ export default function HistoricDashboard() {
                             alignSelf="center"
                             letterSpacing="tight"
                         >
-                            Historic Graphs
+                            R.E.D.
                         </Heading>
                         <Flex
                             flexDir={["row", "row", "column", "column", "column"]}
@@ -135,13 +136,15 @@ export default function HistoricDashboard() {
                 overflow="hidden"
                 h="100vh"
             >
-                <Heading
+                <Text
                     fontWeight="bold"
                     mb={4}
                     letterSpacing="tight"
+                    className="text1"
+                    fontSize="3xl"
                 >
-                    Renewable Energy Dashboard
-                </Heading>
+                    Historic Graphs
+                </Text>
                 <Flex
                     flexDir="row"       
                     align="center"      
