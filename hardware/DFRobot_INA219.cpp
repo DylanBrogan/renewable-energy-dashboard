@@ -10,10 +10,10 @@
  * @url https://github.com/DFRobot/DFRobot_INA219
  */
 
-#include "DFRobot_INA219.h"
+
 #include <Arduino.h>
 #include <Wire.h>
-
+#include "DFRobot_INA219.h"
 
 bool DFRobot_INA219::begin()
 {
