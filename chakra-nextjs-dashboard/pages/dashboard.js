@@ -2,38 +2,9 @@ import React, { useState, useEffect} from 'react'
 import {
     Flex,
     Heading,
-    Avatar,
-    AvatarGroup,
     Text,
-    Icon,
-    IconButton,
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
-    Divider,
-    Link,
-    Box,
-    Button,
-    Input,
-    InputGroup,
-    InputLeftElement
+    Link
 } from '@chakra-ui/react'
-import {
-    FiHome,
-    FiPieChart,
-    FiDollarSign,
-    FiBox,
-    FiCalendar,
-    FiChevronDown,
-    FiChevronUp,
-    FiPlus,
-    FiCreditCard,
-    FiSearch,
-    FiBell
-} from "react-icons/fi"
 import MyChart from '../components/MyChart'
 import { PieChart } from '../components/PieChart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -42,8 +13,6 @@ import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 export default function Dashboard() {
     //Use States
-    const [display, changeDisplay] = useState('hide')
-    const [value, changeValue] = useState(1)
 
     //Use Effects
     useEffect(() => {

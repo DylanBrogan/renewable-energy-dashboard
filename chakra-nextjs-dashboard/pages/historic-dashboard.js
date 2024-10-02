@@ -4,27 +4,11 @@ import { faChartLine } from '@fortawesome/free-solid-svg-icons';
 import {
     Flex,
     Heading,
-    Avatar,
-    AvatarGroup,
     Text,
-    Icon,
-    IconButton,
-    Table,
-    Thead,
-    Tbody,
-    Tr,
-    Th,
-    Td,
-    Divider,
     Link,
-    Box,
-    Button,
-    Input,
-    InputGroup,
-    InputLeftElement
 } from '@chakra-ui/react'
 import StaticGraph from '../components/StaticGraph'
-import * as tf from '@tensorflow/tfjs';
+//import * as tf from '@tensorflow/tfjs';
 
 
 export default function HistoricDashboard() {
@@ -36,7 +20,7 @@ export default function HistoricDashboard() {
     const times = graphData.map(item => item.create_date);
     const surfaceTemperature = graphData.map(item => item.surface_temperature);
     const watts = graphData.map(item => item.watts);
-    console.log(graphData); 
+    //console.log(graphData); 
 
     //Use Effects
     useEffect(() => {
