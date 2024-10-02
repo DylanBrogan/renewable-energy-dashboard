@@ -7,7 +7,7 @@ import time
 
 def insert(data):
     # connect to db
-    database = 'data/dummy_data.db';
+    database = '/home/wolfmano1/Projects/renewable-energy-dashboard/backend/data/data.db';
     table = 'solar_data';
     conn = sqlite3.connect(database)
     cursor = conn.cursor()
@@ -15,8 +15,9 @@ def insert(data):
     # execute
     surface_temperature = data[6]
     watts = data[4]
-    sql = f"""INSERT INTO {table} (surface_temperature, watts, create_date)
-            VALUES ({surface_temperature}, {watts}, DATETIME('now', 'localtime'))"""
+    ambient_temperature = data[5]
+    sql = f"""INSERT INTO {table} (surface_temperature, watts, create_date, ambient_temperature)
+            VALUES ({surface_temperature}, {watts}, DATETIME('now', 'localtime'), {ambient_temperature})"""
     cursor.execute(sql)
     
     # commit and close connection

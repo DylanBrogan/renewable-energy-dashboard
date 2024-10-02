@@ -2,6 +2,7 @@
 CREATE TABLE IF NOT EXISTS solar_data (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
     surface_temperature REAL,
+    ambient_temperature REAL,
     watts REAL,
     create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );

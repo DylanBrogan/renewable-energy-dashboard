@@ -2,7 +2,7 @@ import sqlite3
 from datetime import datetime, timedelta
 
 # Connect to the SQLite database
-conn = sqlite3.connect('../data/<DATABASE NAME>.db')
+conn = sqlite3.connect('../data/data.db')
 cursor = conn.cursor()
 
 # Get oldest hour from solar_data table
@@ -10,11 +10,11 @@ cursor.execute('''
     SELECT MIN(create_date)
     FROM solar_data;
 ''')
-oldest_hour = datetime.strptime(cursor.fetchone()[0], '%Y/%m/%d %H:00:00')
+oldest_hour = datetime.strptime(cursor.fetchone()[0], '%Y-%m-%d %H:%M:%S')
 
 if oldest_hour:
     # Calculate the timestamp for the end of the oldest hour
-    end_of_oldest_hour_str = (oldest_hour + timedelta(hours=1)).strftime('%Y/%m/%d %H:00:00')
+    end_of_oldest_hour_str = (oldest_hour + timedelta(hours=1)).strftime('%Y-%m-%d %H:00:00')
 
     # Get the average surface temperature and watts for the oldest hour
     cursor.execute('''
