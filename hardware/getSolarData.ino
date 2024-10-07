@@ -57,6 +57,7 @@ void loop(void)
 {
     // Header:
     // Bus Voltage (V), Shunt Voltage(mV), Current(mA), Power(mW), Ambient Temperatue(F), Object Temperature(F)
+    Serial.print("<BEGIN>");
     Serial.print(wattmeter.getBusVoltage_V(), 2);
     Serial.print(",");
     Serial.print(wattmeter.getShuntVoltage_mV(), 3);
@@ -68,6 +69,6 @@ void loop(void)
     Serial.print(thermometer.getAmbientTempCelsius()*9/5 + 32);
     Serial.print(",");
     Serial.print(thermometer.getObjectTempCelsius()*9/5 + 32);    
-    Serial.println("");
+    Serial.println("<END>");
     delay(1000);
 }
