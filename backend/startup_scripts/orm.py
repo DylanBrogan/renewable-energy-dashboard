@@ -16,8 +16,10 @@ def insert(data):
     surface_temperature = data[6]
     watts = data[4]
     ambient_temperature = data[5]
-    sql = f"""INSERT INTO {table} (surface_temperature, watts, create_date, ambient_temperature)
-            VALUES ({surface_temperature}, {watts}, DATETIME('now', 'localtime'), {ambient_temperature})"""
+    current = data[3]
+    bus_voltage = data[1]
+    sql = f"""INSERT INTO {table} (surface_temperature, watts, create_date, ambient_temperature, current, bus_voltage)
+            VALUES ({surface_temperature}, {watts}, DATETIME('now', 'localtime'), {ambient_temperature}, {current}, {bus_voltage})"""
     cursor.execute(sql)
     
     # commit and close connection

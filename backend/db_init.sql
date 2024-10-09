@@ -4,6 +4,8 @@ CREATE TABLE IF NOT EXISTS solar_data (
     surface_temperature REAL,
     ambient_temperature REAL,
     watts REAL,
+    current REAL,
+    bus_voltage REAL,
     create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
