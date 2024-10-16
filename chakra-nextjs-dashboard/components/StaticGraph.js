@@ -8,11 +8,34 @@ import "react-datepicker/dist/react-datepicker.css"
 // This is just the graph
 const Graph = (props) => {
   // Filter out the date we do not want
-  const filteredLabels = props.labels.filter(dateString => {
-    const formattedDateString = dateString.replace(/\//g, '-');
+  //const filteredLabels = props.labels.filter(dateString => {
+  //  const formattedDateString = dateString.replace(/\//g, '-');
+  //  const currentDate = new Date(formattedDateString);
+  //  return currentDate >= props.startDate && currentDate <= props.endDate;
+  //});
+
+  const filteredLabels = [];
+  const filteredData = []; 
+  for (let i = 0; i < props.labels.length; i++) {
+    // Replace slashes with dashes for consistent date format
+    const formattedDateString = props.labels[i].replace(/\//g, '-');
+
+    // Parse the formatted date string
     const currentDate = new Date(formattedDateString);
-    return currentDate >= props.startDate && currentDate <= props.endDate;
-  });
+
+    // Check if the date is valid before comparing
+    if (!isNaN(currentDate.getTime())) {
+      // Check if the currentDate is within the date range
+      if (currentDate >= props.startDate && currentDate <= props.endDate) {
+        filteredLabels.push(props.labels[i]); 
+        filteredData.push(props.data[i]); 
+      }
+    }
+  }
+  console.log(filteredData);
+  
+
+
 
   const data = {
     labels: filteredLabels, // x-axis labels
@@ -20,7 +43,7 @@ const Graph = (props) => {
       label: props.label,
       borderColor: '#B57295',
       backgroundColor: '#db86b2',
-      data: props.data, // y-axis data points
+      data: filteredData, // y-axis data points
       fill: false,
     }]
   };

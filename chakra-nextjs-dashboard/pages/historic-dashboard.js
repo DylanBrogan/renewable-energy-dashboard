@@ -8,28 +8,23 @@ import {
     Link,
 } from '@chakra-ui/react'
 import StaticGraph from '../components/StaticGraph'
-//import * as tf from '@tensorflow/tfjs';
-
 
 export default function HistoricDashboard() {
     //Use States
     const [graphData, setGraphData] = useState([])
-    //const [dataLoaded, setDataLoaded] = useState(false);
 
     // Data
     const times = graphData.map(item => item.create_date);
     const surfaceTemperature = graphData.map(item => item.surface_temperature);
     const watts = graphData.map(item => item.watts);
-    //console.log(graphData); 
 
     //Use Effects
     useEffect(() => {
         async function fetchUsers() {
           try {
-            const response = await fetch('/api/hello');
+            const response = await fetch('/api/historicTable');
             const data = await response.json();
             setGraphData(data)
-            setDataLoaded(true)
           } catch (error) {
             console.error('Failed to fetch users:', error);
           }
@@ -38,62 +33,6 @@ export default function HistoricDashboard() {
         fetchUsers();
 
       }, []);
-
-    // Machine Learning (depracated)
-    //useEffect(() => {
-    //    if (dataLoaded && surfaceTemperature.length > 0 && watts.length > 0) {
-    //        // Training data (single input feature, continuous output)
-    //        const trainingData = tf.tensor2d(surfaceTemperature, [surfaceTemperature.length,1]);
-    //        const outputData = tf.tensor2d(watts, [watts.length,1]);
-    //        
-    //        // Define the model
-    //        const model = tf.sequential();
-    //        
-    //        model.add(tf.layers.dense({
-    //          units: 4,      // Hidden layer neurons
-    //          inputShape: [1],  // One input feature
-    //          activation: 'relu'
-    //        }));
-//
-    //        model.add(tf.layers.dense({
-    //          units: 1,     // Output is a single continuous value
-    //          activation: 'linear'  // Linear activation for regression
-    //        }));
-//
-    //        // Compile the model for regression
-    //        model.compile({
-    //          optimizer: 'adam',
-    //          loss: 'meanSquaredError',  // Use MSE for regression
-    //          metrics: ['mae']  // Mean Absolute Error (optional)
-    //        });
-//
-    //        // Train the model
-    //        const trainModel = async () => {
-    //          await model.fit(trainingData, outputData, {
-    //            epochs: 100,  // Number of training iterations
-    //            //callbacks: {
-    //            //  onEpochEnd: (epoch, logs) => {
-    //            //    console.log(`Epoch ${epoch}: loss = ${logs.loss}, MAE = ${logs.mae}`);
-    //            //  }
-    //            //}
-    //          });
-    //        };
-//
-    //        // Predict with new input data
-    //        const predict = async () => {
-    //          const testData = tf.tensor2d([[33], [30]]);  // Test data 
-    //          const predictions = model.predict(testData);
-    //          predictions.print();  // Output the predictions
-    //        };
-//
-    //        // Run the training and prediction
-    //        (async () => {
-    //          await trainModel();
-    //          await predict();
-    //        })();
-    //    }
-    //}, [dataLoaded, graphData])
-
 
     return (
         <Flex
