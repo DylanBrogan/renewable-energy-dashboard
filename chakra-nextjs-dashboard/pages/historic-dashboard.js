@@ -108,7 +108,7 @@ export default function HistoricDashboard() {
                     mb={4}
                     letterSpacing="tight"
                     className="text1"
-                    fontSize="3xl"
+                    fontSize="4xl"
                 >
                     Historic Graphs
                 </Text>
@@ -117,15 +117,16 @@ export default function HistoricDashboard() {
                     align="center"      
                     gap={4} 
                 >    
-                    <StaticGraph title="Power Produced" label="Current Power" labels={times} data={watts} w="50%" h="40vh" m="3"/>
-                    <StaticGraph title="Power Produced" label="Current Power" labels={times} data={watts} w="50%" h="40vh" m="3"/>
+                    <StaticGraph title="Power Produced By Hydro" label="Watts" labels={times} data={watts}  backgroundColor="#4299e1" borderColor="#3182ce" w="50%" h="40vh" m="3"/>
+                    <StaticGraph title="Power Produced By Wind" label="Watts" labels={times} data={watts} backgroundColor="#B2F5EA" borderColor="#81E6D9" w="50%" h="40vh" m="3"/>
                 </Flex>
                 <Flex
                     flexDir="row"       
                     align="center"      
                     gap={4} 
                 >     
-                    <StaticGraph title="Surface Temperature" label="Current Temperature" labels={times} data={surfaceTemperature} w="100%" h="35vh" m="3"/>
+                    <StaticGraph title="Power Produced by Solar" label="Watts" labels={times} data={surfaceTemperature} backgroundColor="#ECC94B" borderColor="#D69E2E" w="50%" h="35vh" m="3"/>
+                    <StaticGraph title="Surface Temperature" label="Degrees" labels={times} data={surfaceTemperature} backgroundColor="#ECC94B" borderColor="#D69E2E" w="50%" h="35vh" m="3"/>
                 </Flex>
             </Flex>
         </Flex>

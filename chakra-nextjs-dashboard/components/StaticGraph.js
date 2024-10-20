@@ -1,18 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Text, Flex, Button, Popover, PopoverTrigger, PopoverContent, PopoverBody } from "@chakra-ui/react";
 import { Line } from 'react-chartjs-2'
 import DatePicker from "react-datepicker"
-
 import "react-datepicker/dist/react-datepicker.css"
 
 // This is just the graph
 const Graph = (props) => {
-  // Filter out the date we do not want
-  //const filteredLabels = props.labels.filter(dateString => {
-  //  const formattedDateString = dateString.replace(/\//g, '-');
-  //  const currentDate = new Date(formattedDateString);
-  //  return currentDate >= props.startDate && currentDate <= props.endDate;
-  //});
 
   const filteredLabels = [];
   const filteredData = []; 
@@ -33,16 +26,13 @@ const Graph = (props) => {
     }
   }
   console.log(filteredData);
-  
-
-
 
   const data = {
     labels: filteredLabels, // x-axis labels
     datasets: [{
       label: props.label,
-      borderColor: '#B57295',
-      backgroundColor: '#db86b2',
+      borderColor: props.borderColor,
+      backgroundColor: props.backgroundColor,
       data: filteredData, // y-axis data points
       fill: false,
     }]
@@ -65,7 +55,7 @@ const Graph = (props) => {
     }
   };
 
-  return <Line data={data} options={options} />;
+  return <Line data={data} options={options}  />;
 };
 
 // This is the exported block
@@ -141,20 +131,20 @@ const StaticGraph = (props) => {
                 >
                   <PopoverBody>
                     <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    showTimeSelect
-                    dateFormat="Pp"
-                    timeIntervals={60}
-                    inline 
-                    minDate={startDate}
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      showTimeSelect
+                      dateFormat="Pp"
+                      timeIntervals={60}
+                      inline 
+                      minDate={startDate}
                     />
                   </PopoverBody>
                 </PopoverContent>
               </Popover>
             </Box>
           </Flex>
-          <Graph startDate = {startDate} endDate = {endDate} labels={props.labels} label={props.label} data={props.data} ></Graph>
+          <Graph startDate = {startDate} endDate = {endDate} labels={props.labels} label={props.label} data={props.data} borderColor={props.borderColor} backgroundColor={props.backgroundColor}></Graph>
         </Box>
 )
 }

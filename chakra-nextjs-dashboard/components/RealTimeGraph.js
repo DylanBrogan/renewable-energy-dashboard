@@ -6,9 +6,9 @@ const RealTimeLineChart = (props) => {
   const data ={
     labels: props.labels, // x-axis labels
     datasets: [{
-      label: 'Real-Time Data',
-      borderColor: '#B57295',
-      backgroundColor: '#db86b2',
+      label: props.label,
+      borderColor: props.borderColor,
+      backgroundColor: props.backgroundColor,
       data: props.data, // y-axis data points
       fill: false,
     }]
@@ -81,7 +81,7 @@ const RealTimeLineChart = (props) => {
 };
 
 
-const MyChart = (props) => (
+const RealTimeGraph = (props) => (
   <Box
     borderWidth="1px" 
     borderRadius="lg" 
@@ -94,10 +94,10 @@ const MyChart = (props) => (
     m={props.m}
   >
     <Text color="gray" fontSize="lg">{props.title}</Text>
-    <RealTimeLineChart data = {props.data} labels = {props.labels}></RealTimeLineChart>
+    <RealTimeLineChart data = {props.data} labels = {props.labels} label = {props.label} borderColor={props.borderColor} backgroundColor={props.backgroundColor}></RealTimeLineChart>
   </Box>
 )
 
-export default MyChart;
+export default RealTimeGraph;
 
 
