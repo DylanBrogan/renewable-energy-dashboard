@@ -30,23 +30,36 @@ if __name__ == '__main__':
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
     ser.reset_input_buffer()
     
+    buffer = ""  # Buffer to accumulate serial data
+    
     while True:
         # wait for serial data
         if ser.in_waiting > 0:
-            # interpret data as csv
+            # read serial data
             chunk = ser.read(ser.in_waiting).decode('utf-8')
-            csv_data = io.StringIO(chunk)
-            csv_reader = csv.reader(csv_data)
+            buffer += chunk
             
-            # disregard garbage
-            for row in csv_reader:
-                if len(row) > 0:
-                    if (row[0] == '<BEGIN>' and row[len(row)-1] == '<END>'):
+            # check if buffer contains a complete message
+            if '<BEGIN>' in buffer and '<END>' in buffer:
+                # extract full message
+                start_idx = buffer.index('<BEGIN>')
+                end_idx = buffer.index('<END>') + len('<END>')
+                message = buffer[start_idx:end_idx]
+                
+                # remove processed part from buffer
+                buffer = buffer[end_idx:]
+                
+                # process CSV data
+                csv_data = io.StringIO(message)
+                csv_reader = csv.reader(csv_data)
+                
+                for row in csv_reader:
+                    if len(row) > 0 and row[0] == '<BEGIN>' and row[-1] == '<END>':
                         # do insert
                         print(row)
                         insert(row)
+                        buffer = ""
                     else:
-                        #error
                         print("BAD")
                         
         # wait one second
