@@ -17,17 +17,37 @@ CREATE TABLE IF NOT EXISTS historic_solar_data (
     create_date DATETIME
 );
 
--- Create the user_settings table
-CREATE TABLE IF NOT EXISTS user_settings (
+-- Create the hydro_data table
+CREATE TABLE IF NOT EXISTS hydro_data (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    property_name VARCHAR(50),
-    property_value VARCHAR(50)
+    flowrate REAL,
+    watts REAL,
+    current REAL,
+    bus_voltage REAL,
+    create_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create alerts table
-CREATE TABLE IF NOT EXISTS alerts (
+-- Create historical hydro data table
+CREATE TABLE IF NOT EXISTS historic_hydro_data (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    alert_type VARCHAR(50),
-    alert_message TEXT,
-    triggered_date DATETIME DEFAULT CURRENT_TIMESTAMP
+    avg_flowrate REAL,
+    avg_watts REAL,
+    create_date DATETIME
 );
+
+-- Create the wind_data table
+CREATE TABLE IF NOT EXISTS wind_data (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    watts REAL,
+    current REAL,
+    bus_voltage REAL,
+    create_date DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create historical wind data table
+CREATE TABLE IF NOT EXISTS historic_wind_data (
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    avg_watts REAL,
+    create_date DATETIME
+);
+
