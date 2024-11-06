@@ -2,7 +2,7 @@ import sqlite3
 from datetime import datetime, timedelta
 
 # Connect to the SQLite database
-conn = sqlite3.connect('../data/data.db')
+conn = sqlite3.connect('/home/wolfmano1/Projects/renewable-energy-dashboard/backend/data/data.db')
 cursor = conn.cursor()
 
 # Get oldest hour from solar_data table
@@ -29,7 +29,7 @@ if oldest_hour:
     cursor.execute('''
         INSERT INTO historic_solar_data (avg_surface_temperature, avg_watts, create_date)
         VALUES (?, ?, ?)
-    ''', (avg_surface_temp, avg_watts, oldest_hour))
+    ''', (avg_surface_temp, avg_watts, oldest_hour.replace(minute=0, second=0, microsecond=0)))
 
     # Delete the data from the oldest hour in the solar_data table
     cursor.execute('''

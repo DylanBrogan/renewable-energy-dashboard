@@ -8,28 +8,23 @@ import {
     Link,
 } from '@chakra-ui/react'
 import StaticGraph from '../components/StaticGraph'
-//import * as tf from '@tensorflow/tfjs';
-
 
 export default function HistoricDashboard() {
     //Use States
     const [graphData, setGraphData] = useState([])
-    //const [dataLoaded, setDataLoaded] = useState(false);
 
     // Data
     const times = graphData.map(item => item.create_date);
     const surfaceTemperature = graphData.map(item => item.surface_temperature);
     const watts = graphData.map(item => item.watts);
-    //console.log(graphData); 
 
     //Use Effects
     useEffect(() => {
         async function fetchUsers() {
           try {
-            const response = await fetch('/api/hello');
+            const response = await fetch('/api/historicTable');
             const data = await response.json();
             setGraphData(data)
-            setDataLoaded(true)
           } catch (error) {
             console.error('Failed to fetch users:', error);
           }
@@ -38,62 +33,6 @@ export default function HistoricDashboard() {
         fetchUsers();
 
       }, []);
-
-    // Machine Learning (depracated)
-    //useEffect(() => {
-    //    if (dataLoaded && surfaceTemperature.length > 0 && watts.length > 0) {
-    //        // Training data (single input feature, continuous output)
-    //        const trainingData = tf.tensor2d(surfaceTemperature, [surfaceTemperature.length,1]);
-    //        const outputData = tf.tensor2d(watts, [watts.length,1]);
-    //        
-    //        // Define the model
-    //        const model = tf.sequential();
-    //        
-    //        model.add(tf.layers.dense({
-    //          units: 4,      // Hidden layer neurons
-    //          inputShape: [1],  // One input feature
-    //          activation: 'relu'
-    //        }));
-//
-    //        model.add(tf.layers.dense({
-    //          units: 1,     // Output is a single continuous value
-    //          activation: 'linear'  // Linear activation for regression
-    //        }));
-//
-    //        // Compile the model for regression
-    //        model.compile({
-    //          optimizer: 'adam',
-    //          loss: 'meanSquaredError',  // Use MSE for regression
-    //          metrics: ['mae']  // Mean Absolute Error (optional)
-    //        });
-//
-    //        // Train the model
-    //        const trainModel = async () => {
-    //          await model.fit(trainingData, outputData, {
-    //            epochs: 100,  // Number of training iterations
-    //            //callbacks: {
-    //            //  onEpochEnd: (epoch, logs) => {
-    //            //    console.log(`Epoch ${epoch}: loss = ${logs.loss}, MAE = ${logs.mae}`);
-    //            //  }
-    //            //}
-    //          });
-    //        };
-//
-    //        // Predict with new input data
-    //        const predict = async () => {
-    //          const testData = tf.tensor2d([[33], [30]]);  // Test data 
-    //          const predictions = model.predict(testData);
-    //          predictions.print();  // Output the predictions
-    //        };
-//
-    //        // Run the training and prediction
-    //        (async () => {
-    //          await trainModel();
-    //          await predict();
-    //        })();
-    //    }
-    //}, [dataLoaded, graphData])
-
 
     return (
         <Flex
@@ -169,7 +108,7 @@ export default function HistoricDashboard() {
                     mb={4}
                     letterSpacing="tight"
                     className="text1"
-                    fontSize="3xl"
+                    fontSize="4xl"
                 >
                     Historic Graphs
                 </Text>
@@ -178,15 +117,16 @@ export default function HistoricDashboard() {
                     align="center"      
                     gap={4} 
                 >    
-                    <StaticGraph title="Power Produced" label="Current Power" labels={times} data={watts} w="50%" h="40vh" m="3"/>
-                    <StaticGraph title="Power Produced" label="Current Power" labels={times} data={watts} w="50%" h="40vh" m="3"/>
+                    <StaticGraph title="Power Produced By Hydro" label="Watts" labels={times} data={watts}  backgroundColor="#4299e1" borderColor="#3182ce" w="50%" h="40vh" m="3"/>
+                    <StaticGraph title="Power Produced By Wind" label="Watts" labels={times} data={watts} backgroundColor="#B2F5EA" borderColor="#81E6D9" w="50%" h="40vh" m="3"/>
                 </Flex>
                 <Flex
                     flexDir="row"       
                     align="center"      
                     gap={4} 
                 >     
-                    <StaticGraph title="Surface Temperature" label="Current Temperature" labels={times} data={surfaceTemperature} w="100%" h="35vh" m="3"/>
+                    <StaticGraph title="Power Produced by Solar" label="Watts" labels={times} data={surfaceTemperature} backgroundColor="#ECC94B" borderColor="#D69E2E" w="50%" h="35vh" m="3"/>
+                    <StaticGraph title="Surface Temperature" label="Degrees" labels={times} data={surfaceTemperature} backgroundColor="#ECC94B" borderColor="#D69E2E" w="50%" h="35vh" m="3"/>
                 </Flex>
             </Flex>
         </Flex>
