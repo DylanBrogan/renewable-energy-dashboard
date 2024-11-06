@@ -1,7 +1,13 @@
 #include <Wire.h>
 #include "DFRobot_INA219.h"
+#include "DFRobot_MLX90614.h"
 
-DFRobot_INA219_IIC wattmeter(&Wire, INA219_I2C_ADDRESS4);
+#define MLX90614_I2C_ADDR 0x5A   // mlx9614 default I2C communication address
+
+DFRobot_MLX90614_I2C thermometer(/*uint8_t i2cAddr=*/MLX90614_I2C_ADDR, /*TwoWire *pWire = */&Wire, /*int sdaPin=*/SDA, /*int sclPin=*/SCL);
+DFRobot_INA219_IIC hydro_wattmeter(&Wire, INA219_I2C_ADDRESS4);
+DFRobot_INA219_IIC solar_wattmeter(&Wire, INA219_I2C_ADDRESS2);
+DFRobot_INA219_IIC wind_wattmeter(&Wire, INA219_I2C_ADDRESS1);
 
 // Revise the following two paramters according to actual reading of the INA219 and the multimeter
 // for linearly calibration
@@ -14,7 +20,7 @@ byte sensorPin       = 2;
 
 // The hall-effect flow sensor outputs approximately 4.5 pulses per second per
 // litre/minute of flow.
-float calibrationFactor = 7.41;
+float calibrationFactor = 4.5;
 
 volatile byte pulseCount;  
 
@@ -31,14 +37,33 @@ void setup()
   Serial.begin(9600);
   while(!Serial);
 
-  // Initialize the wattmeter
-  while(wattmeter.begin() != true) {
-      Serial.println("INA219 begin failed");
+  // Initialize the wattmeters
+  while(solar_wattmeter.begin() != true) {
+    Serial.println("Solar INA219 begin failed");
+    delay(2000);
+  }
+  while(hydro_wattmeter.begin() != true) {
+      Serial.println("Hydro INA219 begin failed");
       delay(2000);
+  }
+  while(wind_wattmeter.begin() != true) {
+      Serial.println("Wind INA219 begin failed");
+      delay(2000);
+  }
+  while(wind_wattmeter.begin() != true) {
+      Serial.println("Wind INA219 begin failed");
+      delay(2000);
+  }
+  // Initialize the thermometer
+  while( NO_ERR != thermometer.begin() ){
+    Serial.println("Communication with device failed, please check connection");
+    delay(3000);
   }
 
   // Linear Calibration
-  wattmeter.linearCalibrate(/*The measured current before calibration*/ina219Reading_mA, /*The current measured by other current testers*/extMeterReading_mA);
+  solar_wattmeter.linearCalibrate(/*The measured current before calibration*/ina219Reading_mA, /*The current measured by other current testers*/extMeterReading_mA);
+  hydro_wattmeter.linearCalibrate(/*The measured current before calibration*/ina219Reading_mA, /*The current measured by other current testers*/extMeterReading_mA);
+  wind_wattmeter.linearCalibrate(/*The measured current before calibration*/ina219Reading_mA, /*The current measured by other current testers*/extMeterReading_mA);
 
   // Set up the status LED line as an output
   pinMode(statusLed, OUTPUT);
@@ -57,12 +82,23 @@ void setup()
   // Configured to trigger on a FALLING state change (transition from HIGH
   // state to LOW state)
   attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
+
+    /**
+  * adjust sensor sleep mode
+  * mode select to enter or exit sleep mode, it's enter sleep mode by default
+  *      true is to enter sleep mode
+  *      false is to exit sleep mode (automatically exit sleep mode after power down and restart)
+  */  
+  thermometer.enterSleepMode();
+  delay(50);
+  thermometer.enterSleepMode(false);
+  delay(200);
 }
 
 /**
  * Main program loop
  */
-void loop()
+void loop(void)
 {
    
    if((millis() - oldTime) > 1000)    // Only process counters once per second
@@ -94,17 +130,32 @@ void loop()
       
     unsigned int frac;
     
-    // Bus Voltage (V), Shunt Voltage(mV), Current(mA), Power(mW), Flow Rate(L/Min)
+
+    // Solar Bus (V), Solar (mA), Solar (mW), Ambient (F), Object (F), Hydro Bus (V), Hydro (mA), Hydro (mW), Flow Rate(L/min), Wind Bus (V), Wind (mA), Wind (mW),
     Serial.print("<BEGIN>");
-    Serial.print(wattmeter.getBusVoltage_V(), 2);
+    Serial.print(solar_wattmeter.getBusVoltage_V(), 2);
     Serial.print(",");
-    Serial.print(wattmeter.getShuntVoltage_mV(), 3);
+    Serial.print(solar_wattmeter.getCurrent_mA(), 1);
     Serial.print(",");
-    Serial.print(wattmeter.getCurrent_mA(), 1);
+    Serial.print(solar_wattmeter.getPower_mW(), 1);
     Serial.print(",");
-    Serial.print(wattmeter.getPower_mW(), 1);
+    Serial.print(thermometer.getAmbientTempCelsius()*9/5 + 32);
+    Serial.print(",");
+    Serial.print(thermometer.getObjectTempCelsius()*9/5 + 32);   
+    Serial.print(",");
+    Serial.print(hydro_wattmeter.getBusVoltage_V(), 2);
+    Serial.print(",");
+    Serial.print(hydro_wattmeter.getCurrent_mA(), 1);
+    Serial.print(",");
+    Serial.print(hydro_wattmeter.getPower_mW(), 1);
     Serial.print(",");
     Serial.print(int(flowRate));
+    Serial.print(",");
+    Serial.print(wind_wattmeter.getBusVoltage_V(), 2);
+    Serial.print(",");
+    Serial.print(wind_wattmeter.getCurrent_mA(), 1);
+    Serial.print(",");
+    Serial.print(wind_wattmeter.getPower_mW(), 1);
     Serial.println("<END>");
 
     // Reset the pulse counter so we can start incrementing again
@@ -112,12 +163,15 @@ void loop()
     
     // Enable the interrupt again now that we've finished sending output
     attachInterrupt(sensorInterrupt, pulseCounter, FALLING);
+    delay(1000);
   }
 }
 
-
-// Interrupt Service Routine
+/*
+Interrupt Service Routine
+ */
 void pulseCounter()
 {
+  // Increment the pulse counter
   pulseCount++;
 }
