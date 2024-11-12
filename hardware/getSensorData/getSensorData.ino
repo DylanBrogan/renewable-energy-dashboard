@@ -133,6 +133,7 @@ void loop(void)
 
     // Solar Bus (V), Solar (mA), Solar (mW), Ambient (F), Object (F), Hydro Bus (V), Hydro (mA), Hydro (mW), Flow Rate(L/min), Wind Bus (V), Wind (mA), Wind (mW),
     Serial.print("<BEGIN>");
+    Serial.print(",");
     Serial.print(solar_wattmeter.getBusVoltage_V(), 2);
     Serial.print(",");
     Serial.print(solar_wattmeter.getCurrent_mA(), 1);
@@ -156,6 +157,7 @@ void loop(void)
     Serial.print(wind_wattmeter.getCurrent_mA(), 1);
     Serial.print(",");
     Serial.print(wind_wattmeter.getPower_mW(), 1);
+    Serial.print(",");
     Serial.println("<END>");
 
     // Reset the pulse counter so we can start incrementing again
