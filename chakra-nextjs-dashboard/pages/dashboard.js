@@ -18,7 +18,7 @@ export default function Dashboard() {
     useEffect(() => {
         async function fetchUsers() {
           try {
-            const response = await fetch('/api/hello');
+            const response = await fetch('/api/liveTable');
             const data = await response.json();
             const last100ValuesData = data.slice(-100);
 

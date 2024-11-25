@@ -19,13 +19,13 @@ export default async function handler(req, res) {
     const db = await openDB();
 
     // Query the database (example: select all users)
-    const users = await db.all('SELECT sd.create_date, sd.avg_watts as solar_watts, sd.avg_surface_temperature, hd.avg_watts as hydro_watts, hd.avg_flowrate FROM historic_solar_data sd JOIN historic_hydro_data hd ON sd.create_date = hd.create_date');
+    const data = await db.all('SELECT sd.create_date, sd.avg_watts as solar_watts, sd.avg_surface_temperature, hd.avg_watts as hydro_watts, hd.avg_flowrate FROM historic_solar_data sd JOIN historic_hydro_data hd ON sd.create_date = hd.create_date');
 
     // Close the database connection
     await db.close();
 
     // Respond with the query result
-    res.status(200).json(users);
+    res.status(200).json(data);
   } catch (error) {
     // Handle errors
     console.error('Database query failed:', error);
