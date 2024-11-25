@@ -11,12 +11,13 @@ import StaticGraph from '../components/StaticGraph'
 
 export default function HistoricDashboard() {
     //Use States
-    const [graphData, setGraphData] = useState([])
-
+    const [graphData, setGraphData] = useState([]); 
     // Data
     const times = graphData.map(item => item.create_date);
-    const surfaceTemperature = graphData.map(item => item.surface_temperature);
-    const watts = graphData.map(item => item.watts);
+    const surfaceTemperature = graphData.map(item => item.avg_surface_temperature);
+    const solar_watts = graphData.map(item => item.solar_watts);
+    const hydro_watts = graphData.map(item => item.hydro_watts);
+    const wind_watts = graphData.map(item => item.wind_watts);
 
     //Use Effects
     useEffect(() => {
@@ -31,7 +32,8 @@ export default function HistoricDashboard() {
         }
         
         fetchUsers();
-
+        console.log(graphData); 
+        console.log(solar_watts); 
       }, []);
 
     return (
@@ -117,15 +119,15 @@ export default function HistoricDashboard() {
                     align="center"      
                     gap={4} 
                 >    
-                    <StaticGraph title="Power Produced By Hydro" label="Watts" labels={times} data={watts}  backgroundColor="#4299e1" borderColor="#3182ce" w="50%" h="40vh" m="3"/>
-                    <StaticGraph title="Power Produced By Wind" label="Watts" labels={times} data={watts} backgroundColor="#B2F5EA" borderColor="#81E6D9" w="50%" h="40vh" m="3"/>
+                    <StaticGraph title="Power Produced By Hydro" label="Watts" labels={times} data={hydro_watts}  backgroundColor="#4299e1" borderColor="#3182ce" w="50%" h="40vh" m="3"/>
+                    <StaticGraph title="Power Produced By Wind" label="Watts" labels={times} data={wind_watts} backgroundColor="#B2F5EA" borderColor="#81E6D9" w="50%" h="40vh" m="3"/>
                 </Flex>
                 <Flex
                     flexDir="row"       
                     align="center"      
                     gap={4} 
                 >     
-                    <StaticGraph title="Power Produced by Solar" label="Watts" labels={times} data={surfaceTemperature} backgroundColor="#ECC94B" borderColor="#D69E2E" w="50%" h="35vh" m="3"/>
+                    <StaticGraph title="Power Produced by Solar" label="Watts" labels={times} data={solar_watts} backgroundColor="#ECC94B" borderColor="#D69E2E" w="50%" h="35vh" m="3"/>
                     <StaticGraph title="Surface Temperature" label="Degrees" labels={times} data={surfaceTemperature} backgroundColor="#ECC94B" borderColor="#D69E2E" w="50%" h="35vh" m="3"/>
                 </Flex>
             </Flex>
