@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
 
     // Query the database (example: select all users)
-    const users = await db.all('SELECT sd.create_date, sd.watts as solar_watts, sd.surface_temperature, sd.ambient_temperature, hd.watts as hydro_watts, hd.flowrate, wd.watts as wind_watts FROM solar_data sd JOIN hydro_data hd ON sd.create_date = hd.create_date JOIN wind_data wd ON sd.create_date = wd.create_date');
+    const data = await db.all('SELECT sd.create_date, sd.watts as solar_watts, sd.surface_temperature, sd.ambient_temperature, hd.watts as hydro_watts, hd.flowrate, wd.watts as wind_watts FROM solar_data sd JOIN hydro_data hd ON sd.create_date = hd.create_date JOIN wind_data wd ON sd.create_date = wd.create_date');
 
     // Close the database connection
     await db.close();
