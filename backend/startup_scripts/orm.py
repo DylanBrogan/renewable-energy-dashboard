@@ -28,6 +28,7 @@ def sensor_insert(data):
     wind_current = data[11]
     wind_watts = (float(wind_current) if float(wind_current) > 0 else 1) * float(wind_bus_voltage)
 
+    print(f"SOLAR[{solar_bus_voltage}, {solar_current}, {solar_watts}, {ambient_temperature}, {surface_temperature}] HYDRO[{hydro_bus_voltage}, {hydro_current}, {hydro_watts}, {flow_rate}] WIND[{wind_bus_voltage}, {wind_current}, {wind_watts}]")
     # SQL to execute
     solar_sql = f"""INSERT INTO solar_data (surface_temperature, watts, ambient_temperature, current, bus_voltage, create_date)
             VALUES ({surface_temperature}, {solar_watts}, {ambient_temperature}, {solar_current}, {solar_bus_voltage}, DATETIME('now', 'localtime'))"""
@@ -49,14 +50,14 @@ if __name__ == '__main__':
 
     # Buffer to accumulate serial data
     buffer = ""
-    
+    print("[solar_bus_voltage, solar_current, solar_watts, ambient_temperature, surface_temperature] [hydro_bus_voltage, hydro_current, hydro_watts, flow_rate] [wind_bus_voltage, wind_current, wind_watts]")   
     while True:
         # wait for serial data
         if ser.in_waiting > 0:
             # read serial data
             chunk = ser.read(ser.in_waiting).decode('utf-8')
             buffer += chunk
-            
+
             # check if buffer1 contains a complete message
             if '<BEGIN>' in buffer and '<END>' in buffer:
                 # extract full message
@@ -74,7 +75,7 @@ if __name__ == '__main__':
                 for row in csv_reader:
                     if len(row) > 0 and row[0] == '<BEGIN>' and row[-1] == '<END>':
                         # do insert
-                        print(row)
+                        # print(row)
                         sensor_insert(row)
                         buffer = ""
                     else:

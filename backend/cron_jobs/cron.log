@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/wolfmano1/Projects/renewable-energy-dashboard/backend/cron_jobs/archive_data.py", line 13, in <module>
+    oldest_hour = datetime.strptime(cursor.fetchone()[0], '%Y-%m-%d %H:%M:%S')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: strptime() argument 1 must be str, not None
+Traceback (most recent call last):
+  File "/home/wolfmano1/Projects/renewable-energy-dashboard/backend/cron_jobs/archive_data.py", line 13, in <module>
+    oldest_hour = datetime.strptime(cursor.fetchone()[0], '%Y-%m-%d %H:%M:%S')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: strptime() argument 1 must be str, not None
